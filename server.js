@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config(); // Load environment variables
 const express = require("express");
 const cors = require("cors");
 const classifyRoute = require("./src/routes/classifyRoute");
@@ -34,7 +34,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT =Number(process.env.PORT) || 3000;
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
