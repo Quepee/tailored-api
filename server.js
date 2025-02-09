@@ -2,14 +2,19 @@ const express = require("express");
 const cors = require("cors");
 const classifyRoute = require("./src/routes/classifyRoute");
 
-const app = express(); // Initialize Express
+const app = express();
 
-app.use(cors()); // Handle CORS
-app.use(express.json()); // Parse JSON request bodies
+app.use(cors());
+app.use(express.json());
 
-// Root Route (Fix)
+// Root route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the Number Classification API" });
+  res.json({
+    message: "Welcome to the Number Classification API",
+    endpoints: {
+      classify: "/api/classify/:number"
+    },
+  });
 });
 
 // Register API route

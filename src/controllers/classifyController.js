@@ -1,4 +1,4 @@
-const classifyService = require("../services/classifyService");
+const classifyService = require("../services/classifier");
 const axios = require("axios");
 
 exports.classifyNumber = async (req, res) => {
