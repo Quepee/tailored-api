@@ -1,8 +1,7 @@
 const cors = require("cors");
 
-// Configure CORS to allow all origins
 module.exports = cors({
-  origin: "*",
-  methods: "GET",
+  origin: "*", // Allow all origins
+  methods: ["GET"],
   allowedHeaders: ["Content-Type"]
 });

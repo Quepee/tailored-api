@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(cors()); // ✅ Fix: Call the function
+app.use(cors()); // ✅ Call the CORS function
 
 // Base route for testing
 app.get("/", (req, res) => {
