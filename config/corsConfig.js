@@ -1,7 +1,12 @@
 const cors = require("cors");
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : ["*"]; // Use environment variable if available
+
 module.exports = cors({
-  origin: "*", // Allow all origins
-  methods: ["GET"],
-  allowedHeaders: ["Content-Type"]
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // Allow credentials if needed
 });
