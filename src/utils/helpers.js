@@ -1,12 +1,13 @@
+
+
 /**
  * Check if a number is prime
+ * @param {number} num
+ * @returns {boolean}
  */
-exports.isPrime = (num) => {
+const isPrime = (num) => {
   if (num < 2) return false;
-  if (num === 2) return true;
-  if (num % 2 === 0) return false;
-
-  for (let i = 3; i * i <= num; i += 2) {
+  for (let i = 2; i <= Math.sqrt(num); i++) {
       if (num % i === 0) return false;
   }
   return true;
@@ -14,34 +15,46 @@ exports.isPrime = (num) => {
 
 /**
 * Check if a number is perfect
+* @param {number} num
+* @returns {boolean}
 */
-exports.isPerfect = (num) => {
-  if (num < 2) return false;
-
+const isPerfect = (num) => {
   let sum = 1;
-  for (let i = 2; i * i <= num; i++) {
-      if (num % i === 0) {
-          sum += i;
-          if (i !== num / i) sum += num / i;
-      }
+  for (let i = 2; i <= num / 2; i++) {
+      if (num % i === 0) sum += i;
   }
-  return sum === num;
+  return sum === num && num !== 1;
 };
 
 /**
 * Check if a number is an Armstrong number
+* @param {number} num
+* @returns {boolean}
 */
-exports.isArmstrong = (num) => {
-  if (num < 0) return false;
-
-  const digits = num.toString().split('').map(Number);
+const isArmstrong = (num) => {
+  const digits = String(num).split("").map(Number);
   const power = digits.length;
-  return digits.reduce((sum, digit) => sum + Math.pow(digit, power), 0) === num;
+  const sum = digits.reduce((acc, digit) => acc + Math.pow(digit, power), 0);
+  return sum === num;
 };
 
 /**
-* Calculate the sum of digits of a number
+* Get properties of a number
+* @param {number} num
+* @returns {object}
 */
-exports.digitSum = (num) => {
-  return Math.abs(num).toString().split('').reduce((sum, digit) => sum + Number(digit), 0);
+const helpers = (num) => {
+  const properties = [];
+  if (isArmstrong(num)) properties.push("armstrong");
+  properties.push(num % 2 === 0 ? "even" : "odd");
+
+  return {
+      number: num,
+      is_prime: isPrime(num),
+      is_perfect: isPerfect(num),
+      properties,
+      digit_sum: String(num).split("").reduce((sum, digit) => sum + Number(digit), 0),
+  };
 };
+
+module.exports = helpers;
