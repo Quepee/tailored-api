@@ -8,7 +8,12 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(cors);
+app.use(cors()); // ✅ Fix: Call the function
+
+// Base route for testing
+app.get("/", (req, res) => {
+  res.send("Number Classification API is running!");
+});
 
 // Routes
 app.use("/api", classifyRoute);
