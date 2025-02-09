@@ -1,22 +1,20 @@
 const classifyService = require("../services/classifier");
-const axios = require("axios");
 
 exports.classifyNumber = async (req, res) => {
-    const { number } = req.params;
+    const { number } = req.params; // Using path parameter instead of query
 
+    // Validate input
     if (!/^-?\d+$/.test(number)) {
         return res.status(400).json({ number, error: true });
     }
 
     const num = parseInt(number, 10);
-    const properties = classifyService.getNumberProperties(num);
 
     try {
-        const factResponse = await axios.get(`http://numbersapi.com/${num}/math`);
-        const fun_fact = factResponse.data;
-
-        res.json({ number: num, ...properties, fun_fact });
+        const result = await classifyService.classify(num);
+        res.json(result);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch fun fact" });
+        console.error("Classification Error:", error.message);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
     }
 };

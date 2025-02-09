@@ -9,25 +9,30 @@ const NUMBERS_API_URL = "http://numbersapi.com";
 exports.classify = async (num) => {
     const properties = [];
 
-    // Check Armstrong number
-    if (isArmstrong(num)) {
-        properties.push("armstrong");
-    }
-
-    // Check Even or Odd
+    // Determine mathematical properties
+    if (isArmstrong(num)) properties.push("armstrong");
     properties.push(num % 2 === 0 ? "even" : "odd");
 
-    // Fetch fun fact
-    const funFact = await fetchFunFact(num);
-
-    return {
-        number: num,
-        is_prime: isPrime(num),
-        is_perfect: isPerfect(num),
-        properties,
-        digit_sum: digitSum(num),
-        fun_fact: funFact
-    };
+    try {
+        const funFact = await fetchFunFact(num);
+        return {
+            number: num,
+            is_prime: isPrime(num),
+            is_perfect: isPerfect(num),
+            properties,
+            digit_sum: digitSum(num),
+            fun_fact: funFact,
+        };
+    } catch (error) {
+        return {
+            number: num,
+            is_prime: isPrime(num),
+            is_perfect: isPerfect(num),
+            properties,
+            digit_sum: digitSum(num),
+            fun_fact: "Fun fact unavailable.",
+        };
+    }
 };
 
 /**
@@ -36,8 +41,9 @@ exports.classify = async (num) => {
 const fetchFunFact = async (num) => {
     try {
         const response = await axios.get(`${NUMBERS_API_URL}/${num}/math?json`);
-        return response.data.text || "No fact found";
+        return response.data.text || "No fact available.";
     } catch (error) {
-        return "Could not retrieve fun fact";
+        console.error(`Error fetching fun fact for ${num}:`, error.message);
+        throw new Error("Fun fact retrieval failed");
     }
 };
