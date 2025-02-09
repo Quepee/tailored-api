@@ -1,8 +1,9 @@
 const express = require("express");
-const { classifyNumber } = require("../controllers/classifyController");
+const classifyController = require("../controllers/classifyController");
 
 const router = express.Router();
 
-router.get("/classify-number/:number", classifyNumber);
+// Define the API route without query parameters
+router.get("/classify-number/:number", classifyController.classifyNumber);
 
 module.exports = router;
