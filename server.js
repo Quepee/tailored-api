@@ -2,6 +2,7 @@ require("dotenv").config(); // Load environment variables
 const express = require("express");
 const cors = require("cors");
 const classifyRoute = require("./src/routes/classifyRoute");
+const classifyService = require("./src/services/classifier"); // Import classifier
 
 const app = express();
 
@@ -38,8 +39,20 @@ app.use((err, req, res, next) => {
 
 // Start server
 const PORT = Number(process.env.PORT) || 3000;
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
+
+  // Classify some numbers on startup
+  const sampleNumbers = [371, 28, 7, -5];
+
+  for (const num of sampleNumbers) {
+    try {
+      const result = await classifyService.classify(num);
+      console.log(`🔍 Classification for ${num}:`, JSON.stringify(result, null, 2));
+    } catch (error) {
+      console.error(`❌ Error classifying ${num}:`, error.message);
+    }
+  }
 });
 
 // Graceful shutdown handling
