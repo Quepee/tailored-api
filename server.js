@@ -13,9 +13,12 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json({
     message: "Welcome to the Number Classification API",
-    endpoints: {
-      classify: "/api/classify-number/{number}", // Example: /api/classify-number/371
-    },
+    endpoints: [
+      "/api/classify-number/371",
+      "/api/classify-number/28",
+      "/api/classify-number/7",
+      "/api/classify-number/{number}" // Dynamic route
+    ],
   });
 });
 
@@ -34,9 +37,9 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-const PORT =Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
 
 // Graceful shutdown handling
